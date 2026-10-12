@@ -12,19 +12,42 @@ const prevButton = document.querySelector('[data-js="button-prev"]');
 const nextButton = document.querySelector('[data-js="button-next"]');
 const pagination = document.querySelector('[data-js="pagination"]');
 
+// States
+let maxPage = 1;
+let page = 1;
+
+const api = "https://rickandmortyapi.com/api/character";
+
 async function fetchCharacters() {
-  const api = "https://rickandmortyapi.com/api/character";
-  const response = await fetch(api);
+  const response = await fetch(api + `?page=${page}`);
   const data = await response.json();
+  const results = data.results;
   console.log(data);
+
+  maxPage = data.info.pages;
+  pagination.textContent = `Page ${page} of ${maxPage}`;
+
+  cardContainer.innerHTML = "";
+
+  for (const result of results) {
+    cardContainer.append(createCharacterCard(result));
+  }
 }
 
-cardContainer.innerHTML = createCharacterCard();
+nextButton.addEventListener("click", () => {
+  if (page < maxPage) {
+    page++;
+    fetchCharacters();
+  }
+});
+
+prevButton.addEventListener("click", () => {
+  if (page > 1) {
+    page--;
+    fetchCharacters();
+  }
+});
 
 fetchCharacters();
-createCharacterCard();
 
-// States
-const maxPage = 1;
-const page = 1;
 const searchQuery = "";
