@@ -1,7 +1,11 @@
+import { createCharacterCard } from "./components/CharacterCard/CharacterCard.js";
+
 const cardContainer = document.querySelector('[data-js="card-container"]');
+
 const searchBarContainer = document.querySelector(
   '[data-js="search-bar-container"]',
 );
+
 const searchBar = document.querySelector('[data-js="search-bar"]');
 const navigation = document.querySelector('[data-js="navigation"]');
 const prevButton = document.querySelector('[data-js="button-prev"]');
@@ -15,7 +19,10 @@ async function fetchCharacters() {
   console.log(data);
 }
 
+cardContainer.innerHTML = createCharacterCard();
+
 fetchCharacters();
+createCharacterCard();
 
 // States
 const maxPage = 1;
