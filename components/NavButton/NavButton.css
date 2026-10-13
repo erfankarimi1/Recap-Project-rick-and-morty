@@ -1,7 +1,35 @@
 .button {
-  border: none;
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid rgb(200 241 105 / 32%);
+  border-radius: 999px;
+  background: #172331;
+  color: var(--color-primary);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 .button:hover {
-  background-color: var(--color-secondary);
+  transform: translateY(-1px);
+  border-color: var(--color-lime);
+  background: var(--color-lime);
+  color: #111a20;
+}
+
+.button:focus-visible,
+.search-bar__button:focus-visible {
+  outline: 3px solid var(--color-cyan);
+  outline-offset: 3px;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }

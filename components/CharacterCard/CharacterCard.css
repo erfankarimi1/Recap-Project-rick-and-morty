@@ -1,25 +1,102 @@
 .card-container {
   margin-bottom: 10px;
 }
+
 .card {
-  width: 300px;
-  background-color: var(--color-secondary);
+  width: min(100%, 292px);
+  background: linear-gradient(145deg, #1b2938, #121b27 72%);
+  border: 1px solid rgb(173 207 207 / 14%);
+  border-radius: 18px;
+  box-shadow: 0 14px 35px rgb(0 0 0 / 25%);
+  overflow: hidden;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgb(200 241 105 / 55%);
+  box-shadow: 0 20px 42px rgb(0 0 0 / 36%);
+}
+
+.card__image-container {
+  position: relative;
+  overflow: hidden;
+  background: #263e49;
+}
+
+.card__image-container::after {
+  position: absolute;
+  inset: 55% 0 0;
+  background: linear-gradient(transparent, rgb(12 19 29 / 45%));
+  content: "";
+  pointer-events: none;
+}
+
+.card__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 0.82;
+  object-fit: cover;
+  transition: transform 250ms ease;
+}
+
+.card:hover .card__image {
+  transform: scale(1.035);
+}
+
+.card__content {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.card__title {
+  overflow: hidden;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card__info {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr auto;
+  gap: 9px 12px;
+  align-items: center;
 }
-.card__content {
-  padding: 10px 20px 20px;
-  display: grid;
-  gap: 20px;
+
+.card__info-title {
+  color: var(--color-muted);
+  font-size: 0.78rem;
 }
 
 .card__info-description {
+  max-width: 150px;
+  overflow: hidden;
+  padding: 5px 9px;
+  border: 1px solid rgb(104 227 208 / 17%);
+  border-radius: 999px;
+  background: rgb(104 227 208 / 8%);
+  color: var(--color-cyan);
+  font-size: 0.72rem;
+  font-weight: 700;
   text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 li {
   list-style: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card__image {
+    transition: none;
+  }
 }
