@@ -1,16 +1,16 @@
 import { createCharacterCard } from "./components/CharacterCard/CharacterCard.js";
-
+import { NavPagination } from "./components/NavPagination/NavPagination.js";
+import { NavButton } from "./components/NavButton/NavButton.js";
+import { SearchBar, form } from "./components/SearchBar/SearchBar.js";
 const cardContainer = document.querySelector('[data-js="card-container"]');
 
-const searchBarContainer = document.querySelector(
-  '[data-js="search-bar-container"]',
-);
-
-const searchBar = document.querySelector('[data-js="search-bar"]');
+const searchBar = form;
+SearchBar();
 const navigation = document.querySelector('[data-js="navigation"]');
-const prevButton = document.querySelector('[data-js="button-prev"]');
-const nextButton = document.querySelector('[data-js="button-next"]');
-const pagination = document.querySelector('[data-js="pagination"]');
+
+const { prevButton, nextButton } = NavButton();
+const pagination = NavPagination();
+navigation.append(prevButton, pagination, nextButton);
 
 // States
 let maxPage = 1;
@@ -24,17 +24,13 @@ async function fetchCharacters() {
   if (searchQuery != "") {
     parameter = `?page=${page}&name=${searchQuery}`;
   } else {
-    page = 1;
     parameter = `?page=${page}`;
   }
 
   const url = mainAPI + parameter;
-  console.log(url);
-
   const response = await fetch(url);
   const data = await response.json();
   const results = data.results;
-  console.log(data);
 
   maxPage = data.info.pages;
   pagination.textContent = `Page ${page} of ${maxPage}`;
@@ -46,25 +42,28 @@ async function fetchCharacters() {
   }
 }
 
-nextButton.addEventListener("click", () => {
+function nextBtn() {
   if (page < maxPage) {
     page++;
     fetchCharacters();
   }
-});
-
-prevButton.addEventListener("click", () => {
+}
+function prevBtn() {
   if (page > 1) {
     page--;
     fetchCharacters();
   }
-});
+}
+
+function searchData(e) {
+  e.preventDefault();
+  const searchValue = searchBar.query.value;
+  searchQuery = searchValue;
+  fetchCharacters();
+}
 
 fetchCharacters();
 
-searchBar.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const searchValue = e.target.elements.query.value;
-  searchQuery = searchValue;
-  fetchCharacters();
-});
+searchBar.addEventListener("click", searchData);
+nextButton.addEventListener("click", nextBtn);
+prevButton.addEventListener("click", prevBtn);
